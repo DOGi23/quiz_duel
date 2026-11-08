@@ -1,0 +1,27 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+first-max-bot
+
+# Environment variables / secrets
+.env
+*.env.local
+.secrets/
+
+# Logs
+*.log
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+node_modules/
+data/
+*.db
+*.db-wal
+*.db-shm

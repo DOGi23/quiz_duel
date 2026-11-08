@@ -1,0 +1,406 @@
+{
+  "image": "quiz-duel:submission",
+  "id": "sha256:b82a8e460b06ea837138d76c724d7c2bd25d6a36107b173cbf541943c70fcc1e",
+  "architecture": "amd64",
+  "os": "linux",
+  "size_bytes": 157424687,
+  "created": "2026-11-08T08:58:10.002639899Z",
+  "source_main_commit": "06c48105932a3605b807236ed5d9ac91bc6b70c8",
+  "runtime_base": "debian:bookworm-slim",
+  "runtime_base_digests": [
+    "debian:bookworm-slim@sha256:734a72b3d6142a71993b4bc580ca01d8ca687f77a2c422d96a961d3376b179bc"
+  ],
+  "builder": "golang:1.27.3",
+  "user": "quiz",
+  "entrypoint": [
+    "/usr/local/bin/quiz-bot"
+  ],
+  "packages": [
+    {
+      "version": "3.134",
+      "name": "adduser"
+    },
+    {
+      "version": "2.6.2",
+      "name": "apt"
+    },
+    {
+      "version": "12.4+deb12u15",
+      "name": "base-files"
+    },
+    {
+      "version": "3.6.1",
+      "name": "base-passwd"
+    },
+    {
+      "version": "5.2.15-2+b13",
+      "name": "bash"
+    },
+    {
+      "version": "1:2.38.1-5+deb12u3",
+      "name": "bsdutils"
+    },
+    {
+      "version": "20250419~deb12u2",
+      "name": "ca-certificates"
+    },
+    {
+      "version": "9.1-1",
+      "name": "coreutils"
+    },
+    {
+      "version": "0.5.12-2",
+      "name": "dash"
+    },
+    {
+      "version": "1.5.82",
+      "name": "debconf"
+    },
+    {
+      "version": "2023.3+deb12u2",
+      "name": "debian-archive-keyring"
+    },
+    {
+      "version": "5.7-0.5~deb12u1",
+      "name": "debianutils"
+    },
+    {
+      "version": "1:3.8-4",
+      "name": "diffutils"
+    },
+    {
+      "version": "1.21.23",
+      "name": "dpkg"
+    },
+    {
+      "version": "1.47.0-2+b2",
+      "name": "e2fsprogs"
+    },
+    {
+      "version": "4.9.0-4",
+      "name": "findutils"
+    },
+    {
+      "version": "12.2.0-14+deb12u1",
+      "name": "gcc-12-base:amd64"
+    },
+    {
+      "version": "2.2.40-1.1+deb12u2",
+      "name": "gpgv"
+    },
+    {
+      "version": "3.8-5",
+      "name": "grep"
+    },
+    {
+      "version": "1.12-1",
+      "name": "gzip"
+    },
+    {
+      "version": "3.23+nmu1",
+      "name": "hostname"
+    },
+    {
+      "version": "1.65.2+deb12u1",
+      "name": "init-system-helpers"
+    },
+    {
+      "version": "2.3.1-3",
+      "name": "libacl1:amd64"
+    },
+    {
+      "version": "2.6.2",
+      "name": "libapt-pkg6.0:amd64"
+    },
+    {
+      "version": "1:2.5.1-4",
+      "name": "libattr1:amd64"
+    },
+    {
+      "version": "1:3.0.9-1",
+      "name": "libaudit-common"
+    },
+    {
+      "version": "1:3.0.9-1",
+      "name": "libaudit1:amd64"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "libblkid1:amd64"
+    },
+    {
+      "version": "1.0.8-5+b1",
+      "name": "libbz2-1.0:amd64"
+    },
+    {
+      "version": "2.36-9+deb12u14",
+      "name": "libc-bin"
+    },
+    {
+      "version": "2.36-9+deb12u14",
+      "name": "libc6:amd64"
+    },
+    {
+      "version": "0.8.3-1+b3",
+      "name": "libcap-ng0:amd64"
+    },
+    {
+      "version": "1:2.66-4+deb12u3+b1",
+      "name": "libcap2:amd64"
+    },
+    {
+      "version": "1.47.0-2+b2",
+      "name": "libcom-err2:amd64"
+    },
+    {
+      "version": "1:4.4.33-2",
+      "name": "libcrypt1:amd64"
+    },
+    {
+      "version": "5.3.28+dfsg2-1",
+      "name": "libdb5.3:amd64"
+    },
+    {
+      "version": "0.270",
+      "name": "libdebconfclient0:amd64"
+    },
+    {
+      "version": "1.47.0-2+b2",
+      "name": "libext2fs2:amd64"
+    },
+    {
+      "version": "3.4.4-1",
+      "name": "libffi8:amd64"
+    },
+    {
+      "version": "12.2.0-14+deb12u1",
+      "name": "libgcc-s1:amd64"
+    },
+    {
+      "version": "1.10.1-3+deb12u1",
+      "name": "libgcrypt20:amd64"
+    },
+    {
+      "version": "2:6.2.1+dfsg1-1.1",
+      "name": "libgmp10:amd64"
+    },
+    {
+      "version": "3.7.9-2+deb12u7",
+      "name": "libgnutls30:amd64"
+    },
+    {
+      "version": "1.46-1",
+      "name": "libgpg-error0:amd64"
+    },
+    {
+      "version": "3.8.1-2",
+      "name": "libhogweed6:amd64"
+    },
+    {
+      "version": "2.3.3-1+b1",
+      "name": "libidn2-0:amd64"
+    },
+    {
+      "version": "1.9.4-1",
+      "name": "liblz4-1:amd64"
+    },
+    {
+      "version": "5.4.1-1+deb12u2",
+      "name": "liblzma5:amd64"
+    },
+    {
+      "version": "1.0.4-2",
+      "name": "libmd0:amd64"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "libmount1:amd64"
+    },
+    {
+      "version": "3.8.1-2",
+      "name": "libnettle8:amd64"
+    },
+    {
+      "version": "0.24.1-2",
+      "name": "libp11-kit0:amd64"
+    },
+    {
+      "version": "1.5.2-6+deb12u2",
+      "name": "libpam-modules:amd64"
+    },
+    {
+      "version": "1.5.2-6+deb12u2",
+      "name": "libpam-modules-bin"
+    },
+    {
+      "version": "1.5.2-6+deb12u2",
+      "name": "libpam-runtime"
+    },
+    {
+      "version": "1.5.2-6+deb12u2",
+      "name": "libpam0g:amd64"
+    },
+    {
+      "version": "10.42-1+deb12u2",
+      "name": "libpcre2-8-0:amd64"
+    },
+    {
+      "version": "2.5.4-1+deb12u1",
+      "name": "libseccomp2:amd64"
+    },
+    {
+      "version": "3.4-1+b6",
+      "name": "libselinux1:amd64"
+    },
+    {
+      "version": "3.4-1",
+      "name": "libsemanage-common"
+    },
+    {
+      "version": "3.4-1+b5",
+      "name": "libsemanage2:amd64"
+    },
+    {
+      "version": "3.4-2.1",
+      "name": "libsepol2:amd64"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "libsmartcols1:amd64"
+    },
+    {
+      "version": "1.47.0-2+b2",
+      "name": "libss2:amd64"
+    },
+    {
+      "version": "3.0.22-1~deb12u2",
+      "name": "libssl3:amd64"
+    },
+    {
+      "version": "12.2.0-14+deb12u1",
+      "name": "libstdc++6:amd64"
+    },
+    {
+      "version": "252.39-1~deb12u2",
+      "name": "libsystemd0:amd64"
+    },
+    {
+      "version": "4.19.0-2+deb12u1",
+      "name": "libtasn1-6:amd64"
+    },
+    {
+      "version": "6.4-4",
+      "name": "libtinfo6:amd64"
+    },
+    {
+      "version": "252.39-1~deb12u2",
+      "name": "libudev1:amd64"
+    },
+    {
+      "version": "1.0-2",
+      "name": "libunistring2:amd64"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "libuuid1:amd64"
+    },
+    {
+      "version": "0.8.1-1",
+      "name": "libxxhash0:amd64"
+    },
+    {
+      "version": "1.5.4+dfsg2-5",
+      "name": "libzstd1:amd64"
+    },
+    {
+      "version": "1:4.13+dfsg1-1+deb12u2",
+      "name": "login"
+    },
+    {
+      "version": "1.47.0-2+b2",
+      "name": "logsave"
+    },
+    {
+      "version": "1.3.4.20200120-3.1",
+      "name": "mawk"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "mount"
+    },
+    {
+      "version": "6.4-4",
+      "name": "ncurses-base"
+    },
+    {
+      "version": "6.4-4",
+      "name": "ncurses-bin"
+    },
+    {
+      "version": "3.0.22-1~deb12u2",
+      "name": "openssl"
+    },
+    {
+      "version": "1:4.13+dfsg1-1+deb12u2",
+      "name": "passwd"
+    },
+    {
+      "version": "5.36.0-7+deb12u4",
+      "name": "perl-base"
+    },
+    {
+      "version": "4.9-1+deb12u1",
+      "name": "sed"
+    },
+    {
+      "version": "3.06-4",
+      "name": "sysvinit-utils"
+    },
+    {
+      "version": "1.34+dfsg-1.2+deb12u1",
+      "name": "tar"
+    },
+    {
+      "version": "2026f-0+deb12u1",
+      "name": "tzdata"
+    },
+    {
+      "version": "37~deb12u1",
+      "name": "usr-is-merged"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "util-linux"
+    },
+    {
+      "version": "2.38.1-5+deb12u3",
+      "name": "util-linux-extra"
+    },
+    {
+      "version": "1:1.2.13.dfsg-1",
+      "name": "zlib1g:amd64"
+    }
+  ],
+  "builder_digest": "golang:1.27.3@sha256:e519d3b0a5b285e5aa53ab9eef02bc6bbb9cb04608389b743a136a9ce75f0d1e",
+  "archive": {
+    "file": "quiz-duel-linux-amd64.tar.gz",
+    "size_bytes": 42452886,
+    "sha256": "150491d8402863af845e1ca9fdaba19b2ea586fd44a061c0c97aa898d8e0b1aa"
+  },
+  "fonts": [
+    {
+      "file": "web/brand/open-sans.ttf",
+      "version": [
+        "Version 3.003"
+      ],
+      "sha256": "36643644f318a812aab2d2ed3bb98f8cf0872527f835fe9398d95fe6b9adb878"
+    },
+    {
+      "file": "web/brand/press-start-2p.ttf",
+      "version": [
+        "Version 3.000"
+      ],
+      "sha256": "034c77f1f05ec89421e4a63f0e3a4ca1ecf852cc6d2bf611f126f275728e017d"
+    }
+  ]
+}

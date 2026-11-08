@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark" data-palette="hackathon">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10091c">
+  <title>Квиз-Дуэль · MAX</title>
+  <script src="https://st.max.ru/js/max-web-app.js"></script>
+  <link rel="stylesheet" href="vendor/fonts.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="brand/press-start-2p.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="hackathon.css">
+</head>
+<body data-screen="home">
+  <div id="app" class="app-container">
+    <header class="app-header">
+      <md-icon-button class="icon-button" onclick="handleBackNavigation()" aria-label="На главную" type="button"><md-icon aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#arrow_back"></use></svg></md-icon></md-icon-button>
+      <div class="brand-lockup"><span class="brand-caption">АЛГОРИТМ УСПЕХА</span><span class="brand-name">КВИЗ-ДУЭЛЬ</span></div>
+      <md-icon-button class="icon-button" onclick="switchScreen('settings')" aria-label="Настройки приложения" type="button"><md-icon aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#settings"></use></svg></md-icon></md-icon-button>
+    </header>
+    <md-tabs id="mainTabs" class="main-tabs" aria-label="Основные разделы"><md-primary-tab id="nav-home" aria-controls="screen-home" active><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#sports_esports"></use></svg></md-icon>Арена</md-primary-tab><md-primary-tab id="nav-leaderboard" aria-controls="screen-leaderboard"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#leaderboard"></use></svg></md-icon>Рейтинг</md-primary-tab><md-primary-tab id="nav-members" aria-controls="screen-members"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#group"></use></svg></md-icon>Участники</md-primary-tab><md-primary-tab id="nav-teacher" aria-controls="screen-teacher" class="hidden"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#school"></use></svg></md-icon>Учитель</md-primary-tab></md-tabs>
+    <main class="content-area">
+      <div id="connectionStatus" class="connection-status" role="status" aria-live="polite"><span id="connectionText">Подключение…</span><md-text-button id="connectionRetry" class="hidden" type="button" onclick="reconnectNow()">Повторить</md-text-button></div>
+      <md-filled-tonal-button id="duelAlert" class="hidden" type="button" onclick="switchScreen('home')"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#sports_esports"></use></svg></md-icon><span id="duelAlertText">Вас ждёт соперник</span></md-filled-tonal-button>
+      <section id="screen-home" class="screen active" aria-labelledby="homeTitle">
+        <div class="page-heading"><p id="homeChatTitle" class="eyebrow">Чат загружается…</p><h1 id="homeTitle">Твой ход</h1></div>
+        <section id="duelInvites" class="hidden" aria-labelledby="duelLobbyTitle">
+          <h2 id="duelLobbyTitle" aria-live="polite">Кто готов к дуэли?</h2>
+          <p class="muted">Прими вызов и сыграй с участником своей группы.</p>
+          <md-list id="duelLobby" class="leaderboard-list" aria-label="Приглашения в дуэль"></md-list>
+        </section>
+        <div class="user-pill" id="userPill">
+          <img id="userAvatar" alt="" class="avatar-img">
+          <div class="user-info"><div id="userLevel" class="user-name">Уровень 1</div><div class="user-meta"><span id="userXP">0 XP</span><span id="userName" class="sr-only">Загрузка…</span></div></div>
+          <span id="userBadge" class="small-chip">MAX</span>
+        </div>
+        <div class="arena-hero-card">
+          <p class="hero-eyebrow">АРЕНА РАЗВЛЕЧЕНИЙ</p>
+          <h2 class="hero-title">ВЫХОДИ<br>НА АРЕНУ</h2>
+          <p class="hero-subtitle"><span id="duelFormat">По 15 секунд на вопрос.</span><br>Проверь знания в дуэли с участником своего чата.</p>
+
+          <md-filled-button class="btn-primary" onclick="startQuickDuel(0)" type="button"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#play_arrow"></use></svg></md-icon>Начать дуэль</md-filled-button>
+        </div>
+        <div class="home-actions">
+        <md-outlined-button class="action-row" onclick="showOpponentPicker()" type="button"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#person_add"></use></svg></md-icon>Соперники</md-outlined-button>
+        <md-outlined-button onclick="openHistory()" type="button" aria-label="История дуэлей"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#history"></use></svg></md-icon>История</md-outlined-button>
+        </div>
+        <md-filled-tonal-button class="action-row mint" onclick="openExpressQuizScreen()" type="button"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#bolt"></use></svg></md-icon>Экспресс-квиз</md-filled-tonal-button>
+        <div class="section-heading"><div><p class="eyebrow">ПОДЗЕМЕЛЬЕ ЗНАНИЙ</p><h2 class="section-title">Выбери предмет</h2></div><span id="subjectsCount" class="small-chip"></span></div>
+        <md-list id="subjectsGrid" class="subject-grid" aria-label="Предметы дуэлей"></md-list>
+        <p class="footnote">Твой прогресс и рейтинг сохраняются отдельно для каждой группы.</p>
+        <p id="antiAbuseStatus" class="footnote" role="status">XP начисляются за первые 3 дуэли с одним соперником в день.</p>
+        <span id="chatContextSub" class="sr-only"></span>
+      </section>
+
+      <section id="screen-duel" class="screen" aria-labelledby="duelTitle">
+        <div class="page-heading"><p class="eyebrow"><span id="duelRoundIndicator">ДУЭЛЬ</span><span id="duelCategorySeparator"> · </span><span id="duelCategoryBadge"></span></p><h1 id="duelTitle">Дуэль</h1></div>
+        <div class="duel-scoreboard">
+          <img id="duelP1Avatar" class="avatar-duel" alt="">
+          <div class="duel-score-center"><div class="duel-names"><span id="duelP1Name">Вы</span><span id="duelP2Name">Соперник</span></div><div id="duelScore" class="duel-score"><span id="duelP1Score">0</span> : <span id="duelP2Score">0</span></div></div>
+          <img id="duelP2Avatar" class="avatar-duel" alt="">
+        </div>
+        <div id="duelWaiting" class="hidden" role="status"><md-circular-progress indeterminate aria-label="Ожидание соперника"></md-circular-progress><div><h2 id="duelWaitingTitle">Ищем соперника</h2><p id="duelWaitingText">Приглашение видно участникам группы. Ждём принятия вызова.</p></div></div>
+        <section id="duelPreparation" class="hidden" aria-labelledby="preparationTitle">
+          <h2 id="preparationTitle">Подготовка к раунду</h2>
+          <p id="preparationHint" class="muted" role="status">Загружаем экран. Вопрос откроется после готовности обоих игроков.</p>
+          <md-list aria-label="Готовность игроков">
+            <md-list-item><span slot="headline" id="readyP1Name"></span><span slot="supporting-text" id="readyP1Status">Загружается</span></md-list-item>
+            <md-list-item><span slot="headline" id="readyP2Name"></span><span slot="supporting-text" id="readyP2Status">Загружается</span></md-list-item>
+          </md-list>
+          <div id="duelCountdown" class="hidden" aria-live="polite"></div>
+          <md-filled-button id="readyButton" type="button" onclick="confirmDuelReady()" disabled>Готов</md-filled-button>
+        </section>
+        <div id="duelQuestionStart" class="timer-container"><div class="timer-header"><span>Время на ответ</span><span id="timerDigits" class="timer-digits">15,0 с</span></div><md-linear-progress id="timerBar" value="1" aria-label="Оставшееся время"></md-linear-progress></div>
+        <div class="question-card"><span id="duelTeacherBadge" class="small-chip hidden">Вопрос учителя · 2×</span><div id="questionTopic" class="question-topic"></div><h2 id="questionText" class="question-title">Загрузка вопроса…</h2></div>
+        <div class="answers-grid" id="answersGrid"></div>
+        <p class="footnote centered">Выбери один ответ. Соперник отвечает сам.</p>
+        <div id="explanationBox" class="explanation-box hidden" role="status"><md-icon aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#info"></use></svg></md-icon><strong>Пояснение</strong><p id="explanationText"></p></div>
+        <md-text-button id="duelReport" class="hidden" type="button" onclick="reportPlayedQuestion(currentDuel.id, '', currentDuel.current_round - 1)">Ошибка в вопросе</md-text-button>
+        <md-text-button class="btn-text" onclick="cancelCurrentDuel()" type="button">Отменить дуэль</md-text-button>
+      </section>
+
+      <section id="screen-result" class="screen" aria-labelledby="resultHeading">
+        <div class="page-heading"><p class="eyebrow">ДУЭЛЬ ЗАВЕРШЕНА</p><h1 id="resultHeading">Отличная игра!</h1></div>
+        <div class="result-card"><span id="resultIcon" class="small-chip">РЕЗУЛЬТАТ</span><h2 id="resultTitle" class="result-title"></h2><p id="resultScore" class="result-score-summary"></p><div id="xpGainedAmount" class="xp-gained-value"></div><p id="xpReasonText" class="muted"></p></div>
+        <h2 class="section-title">Как прошла дуэль</h2>
+        <md-list aria-label="Статистика дуэли">
+          <md-list-item><span slot="headline">Верных ответов</span><span slot="end" id="resultCorrect">—</span></md-list-item>
+          <md-list-item><span slot="headline">Среднее время</span><span slot="end" id="resultTime">—</span></md-list-item>
+        </md-list>
+        <p id="resultAntiAbuseNotice" class="notice mint"></p>
+        <md-outlined-button type="button" onclick="reviewDuel(currentDuel.id)">Разбор ответов</md-outlined-button>
+        <md-filled-button id="rematchButton" class="btn-primary" onclick="requestRematch()" type="button"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#replay"></use></svg></md-icon><span id="rematchLabel">Реванш</span></md-filled-button>
+        <md-text-button onclick="startQuickDuel()" type="button">Найти нового соперника</md-text-button>
+        <md-text-button class="btn-text" onclick="switchScreen('leaderboard')" type="button"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#leaderboard"></use></svg></md-icon>К рейтингу чата</md-text-button>
+      </section>
+
+      <section id="screen-leaderboard" class="screen" aria-labelledby="leadersTitle">
+        <div class="page-heading"><p class="eyebrow" id="leaderboardSubheading">ОБЩИЙ ПРОГРЕСС</p><h1 id="leadersTitle">Лидеры чата</h1></div>
+        <section id="leaderReward" class="reward-card hidden" aria-labelledby="leaderRewardTitle"><p id="leaderRewardTitle" class="eyebrow">НАГРАДА ЗА 1 МЕСТО</p><p id="leaderRewardText"></p></section>
+        <div id="podiumContainer"></div>
+        <div class="list-caption"><span class="small-chip tonal">Участники чата</span><span id="leaderCount" class="footnote"></span></div>
+        <md-list class="leaderboard-list" id="leaderboardList"></md-list>
+        <p class="footnote">В рейтинге — только участники этого чата.</p>
+      </section>
+
+      <section id="screen-teacher" class="screen" aria-labelledby="teacherTitle">
+        <div class="page-heading"><p class="eyebrow">УПРАВЛЕНИЕ КВИЗАМИ</p><h1 id="teacherTitle">Кабинет учителя</h1></div>
+        <div class="notice mint teacher-access"><md-icon aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#school"></use></svg></md-icon><div><strong>Арсенал мастера</strong><p id="teacherChatTitle">Текущий чат</p></div></div>
+        <md-outlined-button type="button" onclick="openReports()"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#flag"></use></svg></md-icon>Замечания к вопросам</md-outlined-button>
+        <md-tabs id="teacherTabs" class="teacher-tabs" aria-label="Кабинет учителя"><md-secondary-tab id="teacher-tab-express" aria-controls="tab-teacher-express" active>Квиз</md-secondary-tab><md-secondary-tab id="teacher-tab-constructor" aria-controls="tab-teacher-constructor">Вопросы</md-secondary-tab><md-secondary-tab id="teacher-tab-subjects" aria-controls="tab-teacher-subjects">Предметы</md-secondary-tab><md-secondary-tab id="teacher-tab-analytics" aria-controls="tab-teacher-analytics">Аналитика</md-secondary-tab><md-secondary-tab id="teacher-tab-settings" aria-controls="tab-teacher-settings">Настройки</md-secondary-tab></md-tabs>
+        <div id="tab-teacher-settings" class="teacher-tab-content" role="tabpanel">
+          <form id="gameSettingsForm" onsubmit="saveGameSettings(event)">
+            <h2>Количество вопросов</h2>
+            <p class="muted">От 1 до 20. Применяется к новым играм этой группы. В квиз попадут доступные вопросы выбранного предмета; в дуэли при нехватке вопросы могут повторяться.</p>
+            <md-outlined-text-field id="duelQuestionCount" type="number" min="1" max="20" step="1" value="3" label="Вопросов в дуэли" required></md-outlined-text-field>
+            <md-outlined-text-field id="quizQuestionCount" type="number" min="1" max="20" step="1" value="3" label="Вопросов в экспресс-квизе" required></md-outlined-text-field>
+            <h2>Награда лидеру</h2>
+            <md-outlined-text-field id="topReward" type="textarea" rows="3" maxlength="500" label="Награда за 1 место в рейтинге" supporting-text="Видна участникам этой группы. Оставьте пустым, чтобы скрыть."></md-outlined-text-field>
+            <md-filled-button id="gameSettingsSave" type="submit" disabled>Сохранить настройки</md-filled-button>
+            <p id="gameSettingsStatus" class="muted" role="status"></p>
+          </form>
+        </div>
+        <div id="tab-teacher-express" class="teacher-tab-content active" role="tabpanel">
+          <h2 class="form-title">Запустить проверку знаний</h2><p class="muted">Ученики войдут в квиз из Арены.<br>На каждый вопрос — 15 секунд.</p>
+          <md-outlined-select id="expressSubject" label="Предмет"></md-outlined-select>
+          <md-outlined-text-field id="expressTopic" maxlength="200" placeholder="Например: Квадратные уравнения" label="Тема квиза"></md-outlined-text-field>
+          <md-list aria-label="Параметры квиза"><md-list-item><span slot="headline">Вопросов в квизе</span><span id="expressQuestionCount" slot="end">—</span></md-list-item><md-list-item><span slot="headline">Очки за ответы</span><span slot="end">2×</span></md-list-item></md-list>
+          <md-filled-button id="expressLaunchButton" class="btn-primary" onclick="launchExpressQuizFromTeacher()" type="button" disabled>Запустить квиз</md-filled-button>
+        </div>
+        <div id="tab-teacher-constructor" class="teacher-tab-content" role="tabpanel">
+          <h2>Банк вопросов</h2>
+          <md-outlined-text-field id="questionSearch" type="search" label="Поиск по вопросам" oninput="renderQuestionCatalog()"></md-outlined-text-field>
+          <md-outlined-select id="questionSubjectFilter" label="Предмет" onchange="renderQuestionCatalog()"></md-outlined-select>
+          <md-outlined-select id="questionStatusFilter" label="Статус" onchange="renderQuestionCatalog()"><md-select-option value="all" selected><span slot="headline">Все вопросы</span></md-select-option><md-select-option value="enabled"><span slot="headline">В игре</span></md-select-option><md-select-option value="disabled"><span slot="headline">Отключённые</span></md-select-option></md-outlined-select>
+          <md-outlined-button type="button" onclick="editQuestion()">Добавить вопрос</md-outlined-button>
+          <p id="questionCount" class="muted" role="status"></p><md-list id="questionCatalog" aria-label="Банк вопросов"></md-list><md-text-button id="questionMore" class="hidden" type="button" onclick="catalogLimit += 6; renderQuestionCatalog(false)">Ещё вопросы</md-text-button>
+          <h2 id="questionFormTitle" class="form-title">Новый вопрос</h2><p class="muted">Отметьте правильный ответ. Изменения действуют только в этой группе и в новых играх.</p>
+          <form id="questionForm" onsubmit="submitCustomQuestion(event)">
+            <md-outlined-select id="formCategory" required label="Предмет"><md-select-option value="algebra" selected><div slot="headline">Алгебра</div></md-select-option><md-select-option value="physics"><div slot="headline">Физика</div></md-select-option><md-select-option value="cs"><div slot="headline">Информатика</div></md-select-option><md-select-option value="history"><div slot="headline">История</div></md-select-option><md-select-option value="geography"><div slot="headline">География</div></md-select-option><md-select-option value="chemistry"><div slot="headline">Химия</div></md-select-option><md-select-option value="biology"><div slot="headline">Биология</div></md-select-option></md-outlined-select>
+            <md-outlined-text-field id="formTopic" maxlength="200" required label="Тема урока"></md-outlined-text-field>
+            <md-outlined-text-field id="formText" rows="3" required label="Текст вопроса" type="textarea"></md-outlined-text-field>
+            <fieldset><legend>Варианты ответа · отметьте верный</legend>
+              <div class="option-input-row"><md-radio name="correctOpt" value="0" aria-label="Первый ответ правильный" checked required></md-radio><md-outlined-text-field id="opt0" label="Первый ответ" required></md-outlined-text-field></div>
+              <div class="option-input-row"><md-radio name="correctOpt" value="1" aria-label="Второй ответ правильный" required></md-radio><md-outlined-text-field id="opt1" label="Второй ответ" required></md-outlined-text-field></div>
+              <div class="option-input-row"><md-radio name="correctOpt" value="2" aria-label="Третий ответ правильный" required></md-radio><md-outlined-text-field id="opt2" label="Третий ответ" required></md-outlined-text-field></div>
+              <div class="option-input-row"><md-radio name="correctOpt" value="3" aria-label="Четвёртый ответ правильный" required></md-radio><md-outlined-text-field id="opt3" label="Четвёртый ответ" required></md-outlined-text-field></div>
+            </fieldset>
+            <md-outlined-text-field id="formExplanation" label="Пояснение к ответу"></md-outlined-text-field>
+            <p class="notice mint">Новые вопросы учителя приносят двойные очки.</p><md-filled-button id="questionSubmit" type="submit" class="btn-primary">Опубликовать вопрос</md-filled-button><md-text-button type="button" onclick="editQuestion(null, false)">Очистить форму</md-text-button>
+          </form>
+        </div>
+        <div id="tab-teacher-analytics" class="teacher-tab-content" role="tabpanel"><h2 class="form-title">Темы для повторения</h2><p id="analyticsSubtitle" class="muted"></p><md-list id="analyticsList" class="analytics-list"></md-list></div>
+        <div id="tab-teacher-subjects" class="teacher-tab-content" role="tabpanel">
+          <div class="section-heading"><h2>Предметы группы</h2><md-filled-tonal-button type="button" onclick="editSubject(); document.getElementById('subjectForm').scrollIntoView({block: 'start'}); document.getElementById('subjectName').focus()">Добавить</md-filled-tonal-button></div>
+          <p class="muted">Названия, обложки и вопросы — для этой группы. Добавьте вопросы к новому предмету во вкладке «Вопросы».</p>
+          <md-list id="subjectsList" aria-label="Школьные предметы"></md-list>
+          <form id="subjectForm" onsubmit="saveSubject(event)">
+            <h2 id="subjectFormTitle">Новый предмет</h2>
+            <div class="subject-image-editor">
+              <div class="subject-image-preview" id="subjectImagePreview"><img id="subjectImage" class="hidden" alt="Обложка предмета"><div id="subjectImagePlaceholder"><md-icon aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#image"></use></svg></md-icon><span>Обложка предмета</span></div></div>
+              <input id="subjectImageFile" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="selectSubjectImage(event)">
+              <div class="image-actions"><md-outlined-button id="subjectImagePick" type="button" onclick="document.getElementById('subjectImageFile').click()"><md-icon slot="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="vendor/icons.svg#image"></use></svg></md-icon>Выбрать картинку</md-outlined-button><md-text-button id="subjectImageRemove" type="button" class="hidden" onclick="removeSubjectImage()">Убрать</md-text-button></div>
+              <p id="subjectImageStatus" class="footnote" role="status" aria-live="polite">JPEG, PNG или WebP до 10 МБ. Изображение будет уменьшено автоматически.</p>
+            </div>
+            <md-outlined-text-field id="subjectName" label="Название предмета" maxlength="80" required></md-outlined-text-field>
+            <md-outlined-text-field id="subjectDescription" type="textarea" rows="3" label="Описание" maxlength="500"></md-outlined-text-field>
+            <md-outlined-text-field id="subjectMinimum" type="number" label="Минимум вопросов для запуска" min="1" max="20" step="1" value="3" required oninput="updateSubjectRequirementHint()"></md-outlined-text-field>
+            <p id="subjectRequirementHint" class="footnote" role="status">Нужно добавить не меньше 3 включённых вопросов. До этого предмет будет черновиком.</p>
+            <md-filled-button id="subjectSave" type="submit">Добавить предмет</md-filled-button>
+            <md-text-button type="button" onclick="editSubject()">Очистить форму</md-text-button>
+          </form>
+        </div>
+      </section>
+
+      <section id="screen-quiz" class="screen" aria-labelledby="quizTitle">
+        <div class="page-heading"><p class="eyebrow">ЭКСПРЕСС-КВИЗ</p><h1 id="quizTitle">Проверка знаний</h1><p id="quizMeta" class="muted"></p></div>
+        <div id="quizQuestionStart" class="timer-container"><div class="timer-header"><span>Время на ответ</span><span id="quizTimerDigits" class="timer-digits">15,0 с</span></div><md-linear-progress id="quizTimerBar" value="1" aria-label="Оставшееся время"></md-linear-progress></div>
+        <div class="question-card"><div id="quizQTopic" class="question-topic"></div><h2 id="quizQText" class="question-title">Загрузка вопроса…</h2></div>
+        <div class="answers-grid" id="quizAnswersGrid"></div>
+      </section>
+
+      <section id="screen-members" class="screen" aria-labelledby="membersTitle">
+        <div class="page-heading"><p id="membersChatHint" class="eyebrow">ТВОЙ ЧАТ</p><h1 id="membersTitle">Выбери соперника</h1></div>
+        <p class="muted">Брось вызов участнику чата и повтори тему вместе с ним.</p><md-list id="membersList" class="leaderboard-list"></md-list><p class="notice mint">Первые 3 дуэли с одним соперником в день приносят XP. Вопросы учителя приносят двойные очки.</p>
+      </section>
+      <section id="screen-quiz-result" class="screen" aria-labelledby="quizResultTitle"><div class="page-heading"><p class="eyebrow">ЭКСПРЕСС-КВИЗ</p><h1 id="quizResultTitle">Квиз завершён</h1><p id="quizResultSummary"></p></div><div id="quizResultQuestions" class="review-rounds"></div><md-text-button type="button" onclick="switchScreen('home')">На Арену</md-text-button></section>
+      <section id="screen-settings" class="screen" aria-labelledby="settingsTitle">
+        <div class="page-heading"><p class="eyebrow">ПОД ВАС</p><h1 id="settingsTitle">Настройки</h1></div>
+        <md-outlined-select id="settingTheme" label="Оформление" onchange="savePreferences()"><md-select-option value="system" selected><span slot="headline">Как на устройстве</span></md-select-option><md-select-option value="light"><span slot="headline">Светлое</span></md-select-option><md-select-option value="dark"><span slot="headline">Тёмное</span></md-select-option></md-outlined-select>
+        <md-outlined-select id="settingPalette" label="Цветовая палитра" onchange="savePreferences()"><md-select-option value="hackathon" selected><span slot="start" class="palette-swatch hackathon" aria-hidden="true"></span><span slot="headline">Хакатон</span></md-select-option><md-select-option value="blue"><span slot="start" class="palette-swatch blue" aria-hidden="true"></span><span slot="headline">Голубая</span></md-select-option><md-select-option value="purple"><span slot="start" class="palette-swatch purple" aria-hidden="true"></span><span slot="headline">Фиолетовая</span></md-select-option><md-select-option value="green"><span slot="start" class="palette-swatch green" aria-hidden="true"></span><span slot="headline">Зелёная</span></md-select-option><md-select-option value="rose"><span slot="start" class="palette-swatch rose" aria-hidden="true"></span><span slot="headline">Розовая</span></md-select-option></md-outlined-select>
+        <md-outlined-select id="settingFont" label="Размер текста" onchange="savePreferences()"><md-select-option value="1" selected><span slot="headline">Обычный</span></md-select-option><md-select-option value="1.15"><span slot="headline">Крупный</span></md-select-option><md-select-option value="1.3"><span slot="headline">Очень крупный</span></md-select-option></md-outlined-select>
+        <md-list><md-list-item><span slot="headline" id="hapticsLabel">Вибрация</span><span slot="supporting-text">Если поддерживается устройством</span><md-switch id="settingHaptics" slot="end" selected aria-labelledby="hapticsLabel" onchange="savePreferences()"></md-switch></md-list-item></md-list>
+        <p class="muted">Настройки сохраняются на этом устройстве для вашего профиля.</p>
+        <p class="footnote">Листайте влево и вправо для перехода между Ареной, рейтингом, участниками и кабинетом учителя, если он доступен. На дополнительных страницах свайп вправо возвращает назад. Во время дуэли и квиза жесты перехода отключены.</p>
+      </section>
+      <section id="screen-history" class="screen" aria-labelledby="historyTitle"><div class="page-heading"><p class="eyebrow">ВАШ ПРОГРЕСС</p><h1 id="historyTitle">История дуэлей</h1></div><p id="historyStatus" class="muted" role="status"></p><md-list id="historyList" aria-label="Завершённые дуэли"></md-list><md-outlined-button id="historyMore" class="hidden" type="button" onclick="loadHistory(true)">Ещё дуэли</md-outlined-button></section>
+      <section id="screen-review" class="screen" aria-labelledby="reviewTitle"><div class="page-heading"><p class="eyebrow">РАЗБОР ДУЭЛИ</p><h1 id="reviewTitle">Ответы и объяснения</h1><p id="reviewSummary" class="muted"></p></div><div id="reviewRounds" class="review-rounds"></div><md-text-button type="button" onclick="openHistory()">К истории</md-text-button></section>
+      <section id="screen-reports" class="screen" aria-labelledby="reportsTitle"><div class="page-heading"><p class="eyebrow">КАБИНЕТ УЧИТЕЛЯ</p><h1 id="reportsTitle">Замечания</h1></div><p id="reportsStatus" class="muted" role="status"></p><div id="reportsList" class="review-rounds"></div><md-text-button type="button" onclick="switchScreen('teacher')">К кабинету</md-text-button></section>
+    </main>
+  </div>
+  <md-dialog id="messageDialog"><div slot="headline" id="messageTitle"></div><div slot="content" id="messageText"></div><div slot="actions"><md-text-button id="messageCancel" class="hidden" type="button" onclick="document.getElementById('messageDialog').close('cancel')">Отмена</md-text-button><md-text-button id="messageConfirm" type="button" onclick="document.getElementById('messageDialog').close('confirm')">Понятно</md-text-button></div></md-dialog>
+  <md-dialog id="reportDialog"><div slot="headline">Ошибка в вопросе</div><form id="reportForm" slot="content" onsubmit="sendQuestionReport(event)"><p>Опишите, что нужно проверить. Учитель увидит вопрос и ваше замечание.</p><md-outlined-text-field id="reportReason" type="textarea" rows="4" label="Что не так?" required maxlength="1000"></md-outlined-text-field><p id="reportError" role="status"></p></form><div slot="actions"><md-text-button type="button" onclick="document.getElementById('reportDialog').close()">Отмена</md-text-button><md-filled-button id="reportSend" type="submit" form="reportForm">Отправить</md-filled-button></div></md-dialog>
+  <script type="module" src="vendor/material.js"></script>
+</body>
+</html>

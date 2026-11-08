@@ -1,0 +1,4 @@
+# Replace quiz.example.com with the domain pointing to your server's public IP.
+quiz.example.com {
+    reverse_proxy 127.0.0.1:8080
+}

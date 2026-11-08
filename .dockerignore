@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+*.env.local
+node_modules
+.review
+data
+*.db*
+*.exe
+*.log
+dist
+output
+.tmp-*

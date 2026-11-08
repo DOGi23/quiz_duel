@@ -1,0 +1,15 @@
+services:
+  bot:
+    image: quiz-duel:submission
+    build: .
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN:?Set BOT_TOKEN in your environment}
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - quiz-data:/data
+
+volumes:
+  quiz-data:

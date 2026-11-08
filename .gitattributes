@@ -1,0 +1,5 @@
+# Generated Lit templates contain meaningful whitespace inside string literals.
+web/vendor/material.js -whitespace
+deploy/*.sh text eol=lf
+deploy/*.yaml text eol=lf
+deploy/Caddyfile text eol=lf
