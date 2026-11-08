@@ -223,7 +223,7 @@ node scripts/submission-dependencies.mjs
 - Press Start 2P 3.000: `web/brand/press-start-2p.ttf`, лицензия [PRESS-START-OFL.txt](web/brand/PRESS-START-OFL.txt).
 - Open Sans 3.003: `web/brand/open-sans.ttf`, лицензия [OPEN-SANS-OFL.txt](web/brand/OPEN-SANS-OFL.txt).
 
-Оформление опирается на предоставленные гайд «Идея фикс» и презентацию команды «Алгоритм успеха». Шрифты взяты из каталога Google Fonts: `ofl/pressstart2p` и `ofl/opensans`. Они поставляются вместе с приложением, внешнего хостинга шрифтов не требуется. PDF, полная презентация и её иллюстрации в комплект не входят. SHA-256 шрифтов приведены в `dist/IMAGE.json`.
+Оформление опирается на предоставленные гайд «Идея фикс». Шрифты взяты из каталога Google Fonts: `ofl/pressstart2p` и `ofl/opensans`. Они поставляются вместе с приложением, внешнего хостинга шрифтов не требуется. PDF, полная презентация и её иллюстрации в комплект не входят. SHA-256 шрифтов приведены в `dist/IMAGE.json`.
 
 ## Состав репозитория
 
